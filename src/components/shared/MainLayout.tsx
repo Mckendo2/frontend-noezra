@@ -134,10 +134,10 @@ export default function MainLayout() {
           <div className="flex items-center gap-3">
             {/* Mobile Menu Toggle */}
             <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
-                  <Menu className="h-5 w-5" />
-                </Button>
+              <SheetTrigger>
+                <div className="md:hidden p-2 rounded-md hover:bg-accent text-foreground flex items-center justify-center">
+                  <Menu className="h-6 w-6" />
+                </div>
               </SheetTrigger>
               <SheetContent side="left" className="w-64 p-0 flex flex-col">
                 <SheetHeader className="hidden">
