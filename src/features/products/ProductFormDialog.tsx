@@ -44,7 +44,7 @@ export default function ProductFormDialog({ open, onOpenChange, onSuccess, editi
   const [categories, setCategories] = useState<any[]>([])
 
   const { register, handleSubmit, reset, setValue, watch, formState: { errors, isSubmitting } } = useForm<FormData>({
-    resolver: zodResolver(productSchema),
+    resolver: zodResolver(productSchema) as any,
   })
 
   useEffect(() => {

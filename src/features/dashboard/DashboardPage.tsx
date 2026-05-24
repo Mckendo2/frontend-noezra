@@ -5,8 +5,8 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { ShoppingCart, TrendingUp, Package, AlertTriangle, Loader2 } from 'lucide-react'
 import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend,
+  Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell,
   BarChart, Bar, ComposedChart, Line
 } from 'recharts'
 import { format, parseISO } from 'date-fns'
@@ -329,7 +329,7 @@ export default function DashboardPage() {
                           outerRadius={80}
                           dataKey="total"
                           stroke="none"
-                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          label={({ name, percent = 0 }: any) => `${name} ${(percent * 100).toFixed(0)}%`}
                           labelLine={false}
                           style={{ fontSize: '11px', fill: 'hsl(var(--foreground))' }}
                         >
