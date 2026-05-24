@@ -390,8 +390,8 @@ export default function InventoryPage() {
         </div>
 
         {/* Product Table */}
-        <div className="rounded-md border border-border bg-card">
-          <Table>
+        <div className="rounded-md border border-border bg-card overflow-x-auto">
+          <Table className="min-w-[800px] whitespace-nowrap">
             <TableHeader>
               {productTable.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -442,8 +442,8 @@ export default function InventoryPage() {
       </TabsContent>
 
       <TabsContent value="categories" className="space-y-4">
-        <div className="rounded-md border border-border bg-card">
-          <Table>
+        <div className="rounded-md border border-border bg-card overflow-x-auto">
+          <Table className="min-w-[600px] whitespace-nowrap">
             <TableHeader>
               {categoryTable.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

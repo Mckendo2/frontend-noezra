@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ImagePlus, Package, Loader2 } from 'lucide-react'
 import api from '@/api/axios'
 import { toast } from 'sonner'
+import imageCompression from 'browser-image-compression'
 
 const productSchema = z.object({
   name: z.string().min(2, 'Name must contain at least 2 characters'),
@@ -68,11 +69,24 @@ export default function ProductFormDialog({ open, onOpenChange, onSuccess, editi
     }
   }, [editingProduct, open, reset, setValue])
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0]
     if (selected) {
-      setFile(selected)
-      setPreviewUrl(URL.createObjectURL(selected))
+      try {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+          fileType: 'image/webp'
+        }
+        const compressedFile = await imageCompression(selected, options)
+        setFile(compressedFile as File)
+        setPreviewUrl(URL.createObjectURL(compressedFile))
+      } catch (error) {
+        toast.error('Error al optimizar la imagen')
+        setFile(selected)
+        setPreviewUrl(URL.createObjectURL(selected))
+      }
     }
   }
 
@@ -130,7 +144,7 @@ export default function ProductFormDialog({ open, onOpenChange, onSuccess, editi
                   Seleccionar Fotografía
                 </div>
               </Label>
-              <Input id="imageUpload" type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+              <Input id="imageUpload" type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileChange} />
               <p className="text-xs text-muted-foreground mt-1">JPG, PNG o WEBP. Máx 5MB.</p>
             </div>
           </div>
