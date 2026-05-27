@@ -144,7 +144,7 @@ export default function ProductFormDialog({ open, onOpenChange, onSuccess, editi
                   Seleccionar Fotografía
                 </div>
               </Label>
-              <Input id="imageUpload" type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileChange} />
+              <Input id="imageUpload" type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
               <p className="text-xs text-muted-foreground mt-2">JPG, PNG o WEBP. Máx 5MB.</p>
             </div>
           </div>
