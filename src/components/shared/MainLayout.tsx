@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
 import { useThemeStore } from '@/store/themeStore'
@@ -58,7 +58,10 @@ export default function MainLayout() {
   // Visible nav items = only modules where user has view permission
   const visibleNavItems = navItems.filter(item => can(item.module, 'view'))
 
-  const SidebarContent = () => (
+  // Mobile menu state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const SidebarContent = ({ onNavClick }: { onNavClick?: () => void }) => (
     <>
       <div className="flex items-center gap-3 px-5 py-5">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
@@ -75,6 +78,7 @@ export default function MainLayout() {
           <NavLink
             key={to}
             to={to}
+            onClick={onNavClick}
             className={({ isActive }) =>
               `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150 ${
                 isActive
@@ -133,17 +137,17 @@ export default function MainLayout() {
         <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-border bg-card shadow-sm shrink-0">
           <div className="flex items-center gap-3">
             {/* Mobile Menu Toggle */}
-            <Sheet>
-              <SheetTrigger>
-                <div className="md:hidden p-2 rounded-md hover:bg-accent text-foreground flex items-center justify-center">
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <button className="md:hidden p-2 rounded-md hover:bg-accent text-foreground flex items-center justify-center">
                   <Menu className="h-6 w-6" />
-                </div>
+                </button>
               </SheetTrigger>
               <SheetContent side="left" className="w-64 p-0 flex flex-col">
                 <SheetHeader className="hidden">
                   <SheetTitle>Menú</SheetTitle>
                 </SheetHeader>
-                <SidebarContent />
+                <SidebarContent onNavClick={() => setIsMobileMenuOpen(false)} />
               </SheetContent>
             </Sheet>
             <h2 className="text-lg font-semibold text-foreground hidden sm:block">Sistema Administrativo</h2>
