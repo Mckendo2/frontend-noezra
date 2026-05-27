@@ -129,34 +129,34 @@ export default function ProductFormDialog({ open, onOpenChange, onSuccess, editi
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Imagen Section */}
-          <div className="flex items-center gap-5">
-            <Avatar className="h-16 w-16 rounded-xl border border-border bg-muted">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+            <Avatar className="h-20 w-20 sm:h-16 sm:w-16 rounded-xl border border-border bg-muted shrink-0">
               {previewUrl ? (
                 <AvatarImage src={previewUrl} className="object-cover" />
               ) : (
                 <AvatarFallback className="rounded-xl"><Package className="h-6 w-6 text-muted-foreground" /></AvatarFallback>
               )}
             </Avatar>
-            <div className="flex-1">
-              <Label htmlFor="imageUpload" className="cursor-pointer">
-                <div className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+            <div className="flex-1 text-center sm:text-left flex flex-col items-center sm:items-start">
+              <Label htmlFor="imageUpload" className="cursor-pointer inline-block">
+                <div className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors bg-primary/10 px-3 py-1.5 rounded-md">
                   <ImagePlus className="h-4 w-4" />
                   Seleccionar Fotografía
                 </div>
               </Label>
               <Input id="imageUpload" type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileChange} />
-              <p className="text-xs text-muted-foreground mt-1">JPG, PNG o WEBP. Máx 5MB.</p>
+              <p className="text-xs text-muted-foreground mt-2">JPG, PNG o WEBP. Máx 5MB.</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-2 space-y-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="md:col-span-2 space-y-2">
               <Label>Nombre del Producto</Label>
               <Input placeholder="Ej. Calamina Galvanizada" {...register('name')} />
               {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
             </div>
 
-            <div className="col-span-2 space-y-2">
+            <div className="md:col-span-2 space-y-2">
               <Label>Descripción</Label>
               <Textarea placeholder="Detalles del producto (opcional)" {...register('description')} className="resize-none" rows={2} />
             </div>
@@ -207,9 +207,9 @@ export default function ProductFormDialog({ open, onOpenChange, onSuccess, editi
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={isSubmitting}>
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4">
+            <Button type="button" variant="outline" className="w-full sm:w-auto" onClick={() => onOpenChange(false)}>Cancelar</Button>
+            <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto">
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Guardar
             </Button>

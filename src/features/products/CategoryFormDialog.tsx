@@ -89,9 +89,9 @@ export default function CategoryFormDialog({ open, onOpenChange, onSuccess, edit
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={isSubmitting}>
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4">
+            <Button type="button" variant="outline" className="w-full sm:w-auto" onClick={() => onOpenChange(false)}>Cancelar</Button>
+            <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto">
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Guardar Categoría
             </Button>

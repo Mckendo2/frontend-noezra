@@ -130,6 +130,7 @@ export default function InventoryPage() {
     {
       accessorKey: 'category_name',
       header: 'Categoría',
+      meta: { className: 'hidden md:table-cell' },
       cell: ({ row }: any) => (
         <span className="text-sm text-muted-foreground">{row.original.category_name || '-'}</span>
       )
@@ -137,6 +138,7 @@ export default function InventoryPage() {
     {
       accessorKey: 'cost',
       header: 'Costo',
+      meta: { className: 'hidden lg:table-cell' },
       cell: ({ row }: any) => <span className="text-muted-foreground">Bs{Number(row.original.cost).toFixed(2)}</span>
     },
     {
@@ -259,24 +261,24 @@ export default function InventoryPage() {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Inventario</h1>
           <p className="text-muted-foreground text-sm">Gestiona tus productos y agrupaciones en un mismo lugar.</p>
         </div>
-        <div className="flex items-center gap-4">
-          <TabsList className="bg-muted p-1">
-            <TabsTrigger value="products" className="px-6">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+          <TabsList className="bg-muted p-1 flex w-full sm:w-auto">
+            <TabsTrigger value="products" className="flex-1 px-4 sm:px-6">
               <Package className="mr-2 h-4 w-4" /> Productos
             </TabsTrigger>
-            <TabsTrigger value="categories" className="px-6">
+            <TabsTrigger value="categories" className="flex-1 px-4 sm:px-6">
               <Tag className="mr-2 h-4 w-4" /> Categorías
             </TabsTrigger>
           </TabsList>
 
           <Button 
             variant={activeTab === 'products' ? 'default' : 'outline'}
-            className={activeTab === 'categories' ? 'border-primary text-primary hover:bg-primary/10' : ''}
+            className={`w-full sm:w-auto ${activeTab === 'categories' ? 'border-primary text-primary hover:bg-primary/10' : ''}`}
             onClick={() => {
             if (activeTab === 'products') {
               setEditingProduct(null)
@@ -294,7 +296,7 @@ export default function InventoryPage() {
 
       <TabsContent value="products" className="space-y-4">
         {/* KPIs Cards */}
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Productos</CardTitle>
@@ -328,17 +330,17 @@ export default function InventoryPage() {
         </div>
 
         {/* Filters & Search */}
-        <div className="flex flex-col md:flex-row items-center gap-4 py-2">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 py-2">
           <div className="relative w-full md:w-80">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Buscar por nombre o código..."
               value={globalFilter}
               onChange={(e) => setGlobalFilter(e.target.value)}
-              className="pl-8 bg-card"
+              className="pl-8 bg-card w-full"
             />
           </div>
-          <div className="flex w-full md:w-auto items-center gap-2 md:ml-auto">
+          <div className="flex flex-col sm:flex-row w-full md:w-auto items-stretch sm:items-center gap-3 md:ml-auto">
             <Select 
               value={(columnFilters.find(f => f.id === 'category_name')?.value as string) || 'all'}
               onValueChange={(val) => {
@@ -349,8 +351,8 @@ export default function InventoryPage() {
                 }
               }}
             >
-              <SelectTrigger className="w-[180px] bg-card">
-                <Tag className="w-4 h-4 mr-2 text-muted-foreground" />
+              <SelectTrigger className="w-full sm:w-[180px] bg-card">
+                <Tag className="w-4 h-4 mr-2 text-muted-foreground shrink-0" />
                 <SelectValue placeholder="Categoría..." />
               </SelectTrigger>
               <SelectContent>
@@ -372,8 +374,8 @@ export default function InventoryPage() {
                 }
               }}
             >
-              <SelectTrigger className="w-[200px] bg-card">
-                <ArrowUpDown className="w-4 h-4 mr-2 text-muted-foreground" />
+              <SelectTrigger className="w-full sm:w-[200px] bg-card">
+                <ArrowUpDown className="w-4 h-4 mr-2 text-muted-foreground shrink-0" />
                 <SelectValue placeholder="Ordenar por..." />
               </SelectTrigger>
               <SelectContent>
@@ -391,12 +393,12 @@ export default function InventoryPage() {
 
         {/* Product Table */}
         <div className="rounded-md border border-border bg-card overflow-x-auto">
-          <Table className="min-w-[800px] whitespace-nowrap">
+          <Table className="w-full whitespace-nowrap">
             <TableHeader>
               {productTable.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className={(header.column.columnDef.meta as any)?.className || ''}>
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
@@ -408,7 +410,7 @@ export default function InventoryPage() {
                 productTable.getRowModel().rows.map((row) => (
                   <TableRow key={row.id}>
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell key={cell.id} className={(cell.column.columnDef.meta as any)?.className || ''}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
