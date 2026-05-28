@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator'
 import { Search, Package, Plus, Minus, Trash2, Loader2, FileText, Tag } from 'lucide-react'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import CustomerFormDialog from '@/features/customers/CustomerFormDialog'
 
 interface Product {
   id: number; name: string; price: number; stock: number;
@@ -47,6 +48,12 @@ export default function QuotationFormDialog({ open, onOpenChange, onSuccess, edi
   const [search, setSearch] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [submitting, setSubmitting] = useState(false)
+  const [customerFormOpen, setCustomerFormOpen] = useState(false)
+
+  const handleCustomerCreated = (newCustomer: any) => {
+    setCustomers(prev => [...prev, newCustomer])
+    setCustomerId(String(newCustomer.id))
+  }
 
   // Default valid_until = 7 days from now
   const defaultValidDate = () => {
@@ -291,7 +298,12 @@ export default function QuotationFormDialog({ open, onOpenChange, onSuccess, edi
               <div className="border-t border-border p-3 space-y-3 bg-card shrink-0">
                 {/* Customer */}
                 <div className="space-y-1">
-                  <Label className="text-xs">Cliente (Opcional)</Label>
+                  <div className="flex justify-between items-center">
+                    <Label className="text-xs">Cliente (Opcional)</Label>
+                    <Button variant="ghost" size="sm" className="h-5 px-1 text-[10px] text-primary" onClick={() => setCustomerFormOpen(true)}>
+                      <Plus className="h-3 w-3 mr-0.5" /> Nuevo
+                    </Button>
+                  </div>
                   <Select value={customerId || "none"} onValueChange={(val) => setCustomerId(val === "none" ? "" : val)}>
                     <SelectTrigger className="w-full h-8 text-xs">
                       <SelectValue placeholder="Seleccionar cliente..." />
@@ -356,6 +368,12 @@ export default function QuotationFormDialog({ open, onOpenChange, onSuccess, edi
           </div>
         )}
       </DialogContent>
+
+      <CustomerFormDialog 
+        open={customerFormOpen} 
+        onOpenChange={setCustomerFormOpen} 
+        onSuccess={handleCustomerCreated} 
+      />
     </Dialog>
   )
 }
