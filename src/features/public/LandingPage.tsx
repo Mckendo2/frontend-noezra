@@ -194,13 +194,6 @@ export default function LandingPage() {
                             className="product-img" 
                             src={imgUrl} 
                             alt={p.name} 
-                            loading="lazy" 
-                            crossOrigin="anonymous"
-                            referrerPolicy="no-referrer"
-                            onError={(e) => {
-                              (e.target as HTMLElement).style.display = 'none';
-                              (e.target as HTMLElement).nextElementSibling?.classList.remove('hidden')
-                            }}
                           />
                         ) : null}
                         <div className={`product-no-img ${imgUrl ? 'hidden absolute inset-0 bg-slate-50 flex items-center justify-center' : ''}`}>
