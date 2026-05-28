@@ -6,6 +6,7 @@ import logoSrc from '@/assets/logo-sinfondo.png'
 
 const WA_NUMBER = '59163123852'
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'
+const BACKEND_BASE = API_BASE.replace('/api/v1', '')
 
 interface Product {
   id: number
@@ -183,7 +184,7 @@ export default function LandingPage() {
                 filteredProducts.map(p => {
                   const waMsg = encodeURIComponent(`Hola! Me interesa el producto: *${p.name}*. ¿Está disponible?`)
                   const waUrl = `https://wa.me/${WA_NUMBER}?text=${waMsg}`
-                  const imgUrl = p.image_url ? (p.image_url.startsWith('http') ? p.image_url : `http://localhost:3000${p.image_url}`) : null
+                  const imgUrl = p.image_url ? (p.image_url.startsWith('http') ? p.image_url : `${BACKEND_BASE}${p.image_url}`) : null
 
                   return (
                     <div key={p.id} className="product-card">

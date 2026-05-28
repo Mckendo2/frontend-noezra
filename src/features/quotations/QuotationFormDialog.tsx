@@ -140,7 +140,6 @@ export default function QuotationFormDialog({ open, onOpenChange, onSuccess, edi
 
   // Submit
   const handleSubmit = async () => {
-    if (!customerId) { toast.error('Selecciona un cliente'); return }
     if (cart.length === 0) { toast.error('Agrega al menos un producto'); return }
     if (!validUntil) { toast.error('Define una fecha de validez'); return }
 
@@ -148,7 +147,7 @@ export default function QuotationFormDialog({ open, onOpenChange, onSuccess, edi
     try {
       const payload = {
         user_id: user?.id,
-        customer_id: Number(customerId),
+        customer_id: customerId && customerId !== 'none' ? Number(customerId) : null,
         discount,
         valid_until: validUntil,
         notes: notes || undefined,
@@ -292,12 +291,13 @@ export default function QuotationFormDialog({ open, onOpenChange, onSuccess, edi
               <div className="border-t border-border p-3 space-y-3 bg-card shrink-0">
                 {/* Customer */}
                 <div className="space-y-1">
-                  <Label className="text-xs">Cliente <span className="text-destructive">*</span></Label>
-                  <Select value={customerId} onValueChange={setCustomerId}>
+                  <Label className="text-xs">Cliente (Opcional)</Label>
+                  <Select value={customerId || "none"} onValueChange={(val) => setCustomerId(val === "none" ? "" : val)}>
                     <SelectTrigger className="w-full h-8 text-xs">
                       <SelectValue placeholder="Seleccionar cliente..." />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="none">Sin cliente específico</SelectItem>
                       {customers.map(c => (
                         <SelectItem key={c.id} value={String(c.id)}>{c.name}</SelectItem>
                       ))}
