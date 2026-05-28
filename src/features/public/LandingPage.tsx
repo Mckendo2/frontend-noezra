@@ -194,12 +194,20 @@ export default function LandingPage() {
                             className="product-img" 
                             src={imgUrl} 
                             alt={p.name} 
+                            onError={(e) => {
+                              // Si falla la carga, ocultamos la imagen y mostramos un SVG por defecto inline
+                              (e.target as HTMLImageElement).onerror = null; // prevenir loop
+                              (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' color='%2394a3b8'%3E%3Crect x='2' y='3' width='20' height='14' rx='2'/%3E%3Cpath d='m8 21 4-4 4 4'/%3E%3Cpath d='M2 13l4-4 4 4 4-6 4 4'/%3E%3C/svg%3E";
+                              (e.target as HTMLImageElement).style.padding = "2rem";
+                              (e.target as HTMLImageElement).style.backgroundColor = "#f8fafc";
+                            }}
                           />
-                        ) : null}
-                        <div className={`product-no-img ${imgUrl ? 'hidden absolute inset-0 bg-slate-50 flex items-center justify-center' : ''}`}>
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="m8 21 4-4 4 4"/><path d="M2 13l4-4 4 4 4-6 4 4"/></svg>
-                          <span>Sin imagen</span>
-                        </div>
+                        ) : (
+                          <div className="product-no-img">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="m8 21 4-4 4 4"/><path d="M2 13l4-4 4 4 4-6 4 4"/></svg>
+                            <span>Sin imagen</span>
+                          </div>
+                        )}
                         {p.category_name && (
                           <span className="product-cat-badge">{p.category_name}</span>
                         )}
