@@ -195,6 +195,8 @@ export default function LandingPage() {
                             src={imgUrl} 
                             alt={p.name} 
                             loading="lazy" 
+                            crossOrigin="anonymous"
+                            referrerPolicy="no-referrer"
                             onError={(e) => {
                               (e.target as HTMLElement).style.display = 'none';
                               (e.target as HTMLElement).nextElementSibling?.classList.remove('hidden')
